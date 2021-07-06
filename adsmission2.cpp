@@ -3,8 +3,6 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include <stdio.h>
-#include <cstdlib>
 #include <algorithm>
 
 using namespace std;
@@ -145,7 +143,7 @@ class AdmittedStud{
 
     public:
         AdmittedStud();
-        AdmittedStud(string, string,string, string, string, string, string, string, string);
+        AdmittedStud(string, string, string, string, string, string, string, string, string);
         void storeInfo(int, int);
         void search(string, int);
         void displayInfo();
@@ -368,7 +366,7 @@ class Student
         void takeData();
         void printData();
         int getCategory();
-        void assignBranch(int quota);
+        string assignBranch(int quota);
         string generateGR(int, string);
 
     friend class Branch;
@@ -419,7 +417,7 @@ void Student::takeData(){
     cin >> this->percentile;
     cout << "\nEnter quota: ";
     cin >> this->quota;
-    cout << "\n\nProgram choice menu: \n1 = Chemical\t2 = Computer\t3 = Electronics\t4 = Production\n5 = Instrumentation\t6 = IT\t7 = Mechanical\t8 = None";
+    cout << "\n\nProgram choice menu: \n1 = Chemical\t2 = Computer\t3 = Electronics\t4 = Production\n5 = Instrumentation\t6 = IT\t7 = Mechanical";
     cout << "\nEnter first program choice: ";
     cin >> this->programChoice[0];
     cout << "\nEnter second program choice: ";
@@ -452,7 +450,7 @@ int Student::getCategory(){
     return quota;
 }
 
-void Student::assignBranch(int quota){
+string Student::assignBranch(int quota){
     /* Quota 
     1 = Open
     2 = Category */
@@ -467,6 +465,7 @@ void Student::assignBranch(int quota){
     7 = Mechanical*/
     
     int cutoff;
+    string grn = "false";
 
     if (quota == 1){
         for (int i = 0; i < 3; ++i){
@@ -478,11 +477,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openChemical, branch.openChemical+70, true);
                         if (this->percentile >= cutoff){
                             branch.openChemical[filledSeats] = true;        //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Chemical", generateGR(studCount, "CH"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "CH");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Chemical", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 1);
-                        }     
-                        return;
+                            return grn;
+                        }  
                     }
                     break;
                 case 2:
@@ -491,11 +491,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openComputer, branch.openComputer+70, true);
                         if (this->percentile >= cutoff){
                             branch.openComputer[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Computer", generateGR(studCount, "CS"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "CS");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Computer", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 2);
-                        }
-                        return;
+                            return grn;
+                        } 
                     }
                     break;
                 case 3:
@@ -504,11 +505,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openElectronics, branch.openElectronics+70, true);
                         if (this->percentile >= cutoff){
                             branch.openElectronics[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Electronics", generateGR(studCount, "EC"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "EC");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Electronics", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 3);
-                        }
-                        return;
+                            return grn;
+                        } 
                     }
                     break;
                 case 4:
@@ -517,11 +519,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openProduction, branch.openProduction+70, true);
                         if (this->percentile >= cutoff){
                             branch.openProduction[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Production", generateGR(studCount, "PD"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "PD");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Production", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 4);
-                        }
-                        return;
+                            return grn;
+                        }  
                     }
                     break;
                 case 5:
@@ -530,11 +533,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openInstrumentation, branch.openInstrumentation+70, true);
                         if (this->percentile >= cutoff){
                             branch.openInstrumentation[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Instrumentation", generateGR(studCount, "IS"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "IS");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Instrumentation", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 5);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 6:
@@ -543,11 +547,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openIT, branch.openIT+70, true);
                         if (this->percentile >= cutoff){
                             branch.openIT[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "IT", generateGR(studCount, "IT"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "IT");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "IT", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 6);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 7:
@@ -556,14 +561,19 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.openMechanical, branch.openMechanical+70, true);
                         if (this->percentile >= cutoff){
                             branch.openMechanical[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Mechanical", generateGR(studCount, "ME"), "Open", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "ME");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Mechanical", grn, "Open", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(1, 7);
+                            return grn;
                         }
-                        return;
                     }
                     break;
+                default:
+                    break;
             }
+            if(i == 2)
+                return grn;
         }
     }
 
@@ -576,11 +586,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryChemical, branch.categoryChemical+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryChemical[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Chemical", generateGR(studCount, "CH"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "CH");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Chemical", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 1);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 2:
@@ -589,11 +600,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryComputer, branch.categoryComputer+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryComputer[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Computer", generateGR(studCount, "CS"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "CS");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Computer", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 2);
-                        }
-                        return;
+                            return grn;
+                        }  
                     }
                     break;
                 case 3:
@@ -602,11 +614,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryElectronics, branch.categoryElectronics+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryElectronics[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Electronics", generateGR(studCount, "EC"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "EC");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Electronics", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 3);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 4:
@@ -615,11 +628,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryProduction, branch.categoryProduction+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryProduction[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Production", generateGR(studCount, "PD"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "PD");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Production", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 4);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 5:
@@ -628,11 +642,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryInstrumentation, branch.categoryInstrumentation+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryInstrumentation[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Instrumentation", generateGR(studCount, "IS"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "IS");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Instrumentation", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 5);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 6:
@@ -641,11 +656,12 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryIT, branch.categoryIT+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryIT[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "IT", generateGR(studCount, "IT"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "IT");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "IT", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 6);
+                            return grn;
                         }
-                        return;
                     }
                     break;
                 case 7:
@@ -654,16 +670,22 @@ void Student::assignBranch(int quota){
                         int filledSeats = count(branch.categoryMechanical, branch.categoryMechanical+30, true);
                         if (this->percentile >= cutoff){
                             branch.categoryMechanical[filledSeats] = true;       //next seat is filled
-                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Mechanical", generateGR(studCount, "ME"), "Category", this->fatherName, this->motherName, this->contactNo, this->city);
+                            grn = generateGR(studCount, "ME");
+                            AdmittedStud admtStud(this->studentName, this->studentLastName, "Mechanical", grn, "Category", this->fatherName, this->motherName, this->contactNo, this->city);
                             //admtStud.displayInfo();
                             admtStud.storeInfo(2, 7);
+                            return grn;
                         }
-                        return;
                     }
                     break;
+                default:
+                    break;
             }
+            if(i == 2)
+                return grn;
         }
     }
+    return grn;
 }
 
 string Student::generateGR(int num, string code){
@@ -716,10 +738,10 @@ int main(){
     
     admissionFile.open("Database.csv");
     if (admissionFile.is_open()) {
-        std::cout << "File has been opened" << endl;
+        cout << "Database accessed." << endl << endl;
     }
     else {
-        std::cout << "File couldn't be opened" << endl;
+        cerr << "Database not accessed." << endl << endl;
     }
 
 
@@ -756,6 +778,7 @@ int main(){
     while (true)
     {
         int choice, qta;
+        string admissionStatus;
         string grn;
         Student s2;
         AdmittedStud s3;
@@ -767,8 +790,13 @@ int main(){
         {
         case 1:
             s2.takeData();
-            s2.assignBranch(s2.getCategory());
-            //s2.showGR();
+            admissionStatus = s2.assignBranch(s2.getCategory());
+            if(admissionStatus == "false")
+                cout << "\n\nAdmission unsuccessful!" << endl << endl << endl;
+            else{
+                cout << "\n\nAdmission successful!\nGR no.: " << admissionStatus << endl << endl << endl;
+            }
+                
             break;
 
         case 2:
